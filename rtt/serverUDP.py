@@ -17,7 +17,7 @@ sock_client = socket.socket(socket.AF_INET, # Internet
 sock_server.bind((udp_ip, udp_port))
 
 while True:
-	message, addr = sockS.recvfrom(1024) # Tamanho do buffer eh 1024 bytes
+	message, addr = sock_server.recvfrom(1024) # Tamanho do buffer eh 1024 bytes
 	print message
 	sock_client.sendto(message + " foi recebida", (addr[0], udp_port_send)) # Resposta do server para calcular latencia (RTT)
 
