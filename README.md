@@ -1,2 +1,3 @@
 # client-server-metrics
-Medições envolvendo pacotes
+
+Implementação de uma comunicação cliente-servidor na linguagem python. É implementado medições de rtt, vazão, e perda de pacotes, utilizando o protocolo de camada de transporte UDP.
