@@ -2,52 +2,31 @@
 
 import socket
 import time
+import os
 
+TCP_IP = '192.168.103.8'
+TCP_PORT = 5006
 
-def to_miliseconds(seconds): # Transforma segundos em milisegundos
-	return round(seconds * 1000,4) # Arredondamento com 4 casas
-	
-CHUNK_SIZE = 10 * 1024
-
-tcp_ip = '192.168.105.54'
-tcp_port = 5006
-
-s = socket.socket(socket.AF_INET,
+sock = socket.socket(socket.AF_INET,
 				socket.SOCK_STREAM)
-s.connect((tcp_ip, tcp_port))
+sock.connect((TCP_IP, TCP_PORT))
 
 arquivo = open("entrada.txt") 
-cont = 0
-
-
-message = arquivo.read(CHUNK_SIZE)
-
-
+message = arquivo.read(1024)
 start = time.time() # Momento em que a mensagem e enviada
-tam = 0
+
 while message:
-	s.send(message)
-	
-	data = s.recv(CHUNK_SIZE) #Tamanho do buffer.
-	tam = tam + len(data)
-	cont = cont + 1
-	print cont
-	print "Mensagem recebida: ", data
-	
-	message = arquivo.read(CHUNK_SIZE)
-	
+	sock.send(message)
+	message = arquivo.read(1024)
+
 end = time.time()   # Momento em que a resposta do server e recebida
 rtt = end - start
 
-arquivo.close()
-arquivo = open("entrada.txt")
+tam = os.path.getsize('entrada.txt')
 
-tamMessage = arquivo.read()
-tamMessage = len(tamMessage)
-arquivo.close()
-print "Tamanho enviado e recebido :" , tam 
-print "Tamanho Mensagem :", tamMessage
-print "Latencia (RTT): "+ str(to_miliseconds(rtt)) + " ms"
-print "Vazao :" + str(round((tam/rtt) /  1048576,4)) + " MB/s"
+print "Tamanho Mensagem:",tam, "bytes"
+print "Latencia (RTT): ", round(rtt * 1000,4), "ms"
+print "Vazao:", round((8* tam/rtt) /1000000, 4), "Mb/s"
 
-s.close()
+arquivo.close()
+sock.close()
