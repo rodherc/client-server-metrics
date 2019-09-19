@@ -3,13 +3,13 @@ import os
 import time
 
 #Dados server
-UDP_IP_SEND = "192.168.104.13"
+UDP_IP_SEND = "192.168.104.18"
 UDP_PORT_SEND = 3008
 
 sock_udp = socket.socket(socket.AF_INET, # Internet 
 				 	socket.SOCK_DGRAM) # UDP
 
-sock_udp.settimeout(0.001)
+sock_udp.settimeout(0.0001)
 
 sum_rtt = 0
 num_pacotes_total = 20
@@ -37,7 +37,7 @@ for i in range(num_pacotes_total):
 
 num_pacotes_enviados = num_pacotes_total - num_pacotes_perdidos
 print "\n               --- Estatisticas --- \n"
-print num_pacotes_total, "pacotes transmitidos, ",num_pacotes_enviados , "pacotes recebidos, ",num_pacotes_perdidos/ num_pacotes_total * 100 ,"% pacotes perdidos." 
+print num_pacotes_total, "pacotes transmitidos, ",num_pacotes_enviados , "pacotes recebidos, ", num_pacotes_perdidos, "pacotes perdidos, ",float(num_pacotes_perdidos)/ num_pacotes_total * 100 ,"% pacotes perdidos." 
 if num_pacotes_enviados != 0:
 	rtt_medio = sum_rtt/num_pacotes_enviados
 
